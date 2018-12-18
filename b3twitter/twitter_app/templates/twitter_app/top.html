@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h2 class="mt-2">
+        B3Twitterへようこそ
+    </h2>
+    <a href="{% url 'login' %}">ログインしてはじめる</a>
+    <br>
+    <a href="{% url 'signup' %}">アカウントを持ってない場合はサインアップ</a>
+
+{% endblock %}

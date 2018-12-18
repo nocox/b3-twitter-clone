@@ -1,0 +1,26 @@
+# 「.DS_Store」や「._.DS_Store」を除外
+*.DS_Store
+
+# 秘密情報
+secret.py
+
+# cache
+.idea
+__pycache__
+*.pyc
+
+# 成果物
+test
+db.sqlite3
+dump.rdb
+
+# ローカル用
+local_settings.py
+# staticfiles
+
+# 開発環境用
+venv
+vagrant
+wdpress
+
+.ipynb_checkpoints

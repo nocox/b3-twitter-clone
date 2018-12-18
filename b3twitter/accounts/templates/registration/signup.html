@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2 class="mt-2">
+        B3Twitterにアカウントを作成
+    </h2>
+    <hr class="mt-0 mb-4">
+
+    {% load crispy_forms_tags %}
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {{ form|crispy }}
+      <button type="submit" class="btn btn-success">Create an account</button>
+    </form>
+{% endblock %}
