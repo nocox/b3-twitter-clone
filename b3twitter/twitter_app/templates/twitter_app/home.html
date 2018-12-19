@@ -3,14 +3,10 @@
 {% block content %}
     {% load crispy_forms_tags %}
 
-    <h1 class="mt-2">
-        <div style="display: flex">
-            <h3>login user : </h3>
-            <h3 style="font-weight: bold;">{{ request.user }}</h3>
-        </div>
-    </h1>
+    <h2 class="mt-2">
+        B3Twitterホーム画面
+    </h2>
     <hr class="mt-0 mb-4">
-
 
     <form action="{% url 'create_tweet' %}" method="post">
         {% csrf_token %}

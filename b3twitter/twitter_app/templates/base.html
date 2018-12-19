@@ -12,6 +12,9 @@
         <a href="{% url 'top' %}" class="navbar-brand">B3Twitter Base</a>
         {%if request.user.is_authenticated%}
             <div>
+                <span class="navbar-text">
+                    login user : <u>{{ request.user }}</u>
+                </span>
                 <a href="{% url 'logout' %}" class="btn btn-danger my-2 my-sm-0">Logout</a>
             </div>
         {% else %}
