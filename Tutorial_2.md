@@ -2,11 +2,13 @@
 > 機能を追加する課題で実装方法を確認
 
 ## 追加機能の概要
-現在は、複数のユーザのツイートがごちゃ混ぜで表示されている。
-![gotyamaze](md_images/gotyamaze_home.png)
+現在は、複数のユーザのツイートがごちゃ混ぜで表示されている。
 
-home画面からユーザ名をクリックすると、そのユーザが投稿したツイートとユーザ情報を表示するプロフィールページを新たに作成する。
-![tutorial_2](md_images/tutorial_2.png)
+<img src="md_images/gotyamaze_home.png" width="320px">
+
+home画面からユーザ名をクリックすると、そのユーザが投稿したツイートとユーザ情報を表示するプロフィールページを新たに作成する。
+
+<img src="md_images/tutorial_2.png" width="320px">
 
 
 
