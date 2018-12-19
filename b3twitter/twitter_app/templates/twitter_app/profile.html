@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% load crispy_forms_tags %}
+
+    <h1 class="mt-2">
+        <div style="display: flex">
+            <h3 style="font-weight: bold;">{{ target_user.username }}</h3>
+            <h3> のプロフィール </h3>
+        </div>
+    </h1>
+    <hr class="mt-0 mb-4">
+
+    {%include 'tweets.html'%}
+{% endblock %}

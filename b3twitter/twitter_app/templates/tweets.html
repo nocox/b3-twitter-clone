@@ -1,0 +1,64 @@
+<div id="tweets">
+    {% for tweet in tweets %}
+    <div class="card">
+      <div class="card-body">
+        <div class="card-title" style="display: flex">
+            <h5>
+              <a href="{% url "profile" tweet.user.username %}">
+                  <u>{{ tweet.user.username }}</u>
+              </a>
+            </h5>
+            <h6 class="text-muted" style="margin-left: auto">{{ tweet.created_at }}</h6>
+        </div>
+
+        <p class="card-text">{{ tweet.content }}</p>
+
+        {% if request.user in tweet.likes.all %}
+        <button id="like-btn"
+                data-url="{% url "api_like_tweet" tweet.id %}"
+                class="card-link btn btn-success">
+            <span>Liked</span>
+            <span class="badge badge-light">{{ tweet.likes.count }}</span>
+        </button>
+        {% else %}
+        <button id="like-btn"
+                data-url="{% url "api_like_tweet" tweet.id %}"
+                class="card-link btn btn-outline-success">
+            <span>Like</span>
+            <span class="badge badge-light">{{ tweet.likes.count }}</span>
+        </button>
+        {% endif %}
+
+      </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+    $("#tweets").on("click", "#like-btn", function (event) {
+        event.preventDefault();
+        var this_ = $(this);
+
+        this_.prop('disabled', true);
+        $.ajax({
+            url: this_.attr("data-url"),
+            type: 'GET'
+        }).done(function (data) {
+            var like_count = Number(this_.children("span:last").text());
+            if (data.is_liked){
+                this_.removeClass().addClass("card-link btn btn-success");
+                this_.children("span:first").text("Liked");
+                this_.children("span:last").text(like_count+1);
+            }else{
+                this_.removeClass().addClass("card-link btn btn-outline-success");
+                this_.children("span:first").text("Like");
+                this_.children("span:last").text(like_count-1);
+            }
+            this_.prop('disabled', false);
+        }).fail(function (data) {
+            console.log('like api error');
+            alert('Like処理に失敗しました．ログインしていますか？');
+            this_.prop('disabled', false);
+        });
+    })
+</script>
