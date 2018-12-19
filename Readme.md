@@ -6,21 +6,24 @@
 - できることを説明
 
 
-## ソースコードの取得
-- ターミナルの用意
-- pythonの用意
+## ソースコードの取得と環境構築
 - gitクライアントの用意方法について
 
+#### [ winの場合 ]
+Anaconda Promptを起動
 ```bash
 git clone [URL]
+cd B3Twitter
+python -m venv venv
+venv¥Scripts¥activate
+(venv) pip install -r requirements.txt
 ```
 
-
-## 開発環境の構築
-- virtualenvのインストール方法
-- winの場合のactivateの方法を調査
-
+#### その他
+コンソールを起動
 ```bash
+git clone [URL]
+cd B3Twitter
 virtualenv venv
 source venv/bin/activate
 (vevn) pip install -r requirements.txt
