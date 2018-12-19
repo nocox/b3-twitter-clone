@@ -1,23 +1,20 @@
 # チュートリアル2
-> 機能を追加する課題で実装方法を確認
+> 機能を追加する課題で実装方法を確認
 
 ## 追加機能の概要
-現在は、複数のユーザのツイートがごちゃ混ぜで表示されている。
+現在は、複数のユーザのツイートがごちゃ混ぜで表示されている。
+![gotyamaze](md_images/gotyamaze_home.png)
 
-- ごちゃまぜの図
-
-home画面からユーザ名をクリックすると、そのユーザが投稿したツイートとユーザ情報を表示するプロフィールページを新たに作成する。
-
-- 追加する機能のイメージ図
+home画面からユーザ名をクリックすると、そのユーザが投稿したツイートとユーザ情報を表示するプロフィールページを新たに作成する。
+![tutorial_2](md_images/tutorial_2.png)
 
 
-## 1.URLの割り当て
-まずは，urls.pyを編集して，プロフィールページにURLを割り当てる．
 
-ここで，今回追加する機能について整理する．
-ユーザを指定し，そのユーザ専用のプロフィールページに表示するため，ユーザごとで表示するページが異なる．
-urls.pyに各ユーザにURLを割り当てるのは，ユーザ数が動的に増えるため対応できない．
-そこで，以下のように記述する．
+## 1.ルーティングの追加
+まずは，urls.pyを編集して，プロフィールページへのルーティングを追加する。
+
+今回の追加する機能では、各ユーザ専用のプロフィールページを表示する必要がある。
+そのため、urls.pyでは以下のように記述する．
 
 **[ b3twitter/twitter_app/urls.py ]**
 ```python
@@ -28,37 +25,39 @@ urlpatterns = [
     path('', views.top, name='top'),
     path('home', views.home, name='home'),
     path('create_tweet', views.create_tweet, name='create_tweet'),
-    path('profile/<string:user_name>', views.profile, name='profile') # 追加
+    path('profile/<str:user_name>', views.profile, name='profile') # 追加
 ]
 ```
 
-このように記述することで，URLは，"profile/"の後にユーザ名(user_name)を表す値を指定することができる．
-したがって，ブラウザでユーザ名が"tester"のユーザのプロフィールページを見る場合，以下のURLになる．
+新たに追加したルーティングの、'\<str:user_name>'の部分は、ここに何らかの文字列型が入ったらルーティングし、その際にその文字列をuser_nameという名前で引数に割り当てる。
+したがって，ユーザ名"tester"のプロフィールページに遷移する場合は以下のURLになる．
 > http://localhost:8080/profile/tester
 
-指定したユーザ名は，この後作成するviewsの関数の引数として受け取ることができる．
-したがって，viewsの関数はユーザごとで違う振る舞いを行うことができる．
-
+指定したユーザ名は，この後作成する"views.profile"関数の引数として受け取ることができる．
 
 
 ## 2.動作の追加
-次に，ページにアクセスした際の動作をviews.pyに関数を追加して記述する
+次に，プロフィールページにアクセスした際の動作をviews.pyにprofileという関数で追加する。
 
 
 **[ b3twitter/twitter_app/views.py ]**
 ```Python
+# Userモデルを使用するので追加
+from .models import User
+
+# ~ 省略 ~
 # 以下の関数を追加
 def profile(request, user_name):
     target_user = User.objects.filter(username=user_name).first()
     if target_user:
-        tweets = Tweet.objects.filter(user__username=target_user.username)
+        tweets = Tweet.objects.filter(user__username=target_user.username).order_by("created_at").reverse()
         queries = {'target_user': target_user, 'tweets': tweets}
         return render(request, 'twitter_app/profile.html', queries)
 
     return redirect(home)
 ```
 
-今回の関数では上から，
+今回の関数は上から，以下のような手順で行う。
 1. 引数で受け取ったユーザ名を用いてユーザ情報を検索し，target_userに格納
 2. 与えられたuserが存在することを確認 (存在しなければ，target_user = None)
 3. ユーザがツイートした情報をusernameを用いてTweetモデルから検索し，tweetsに格納
@@ -66,10 +65,10 @@ def profile(request, user_name):
 5. テンプレートと組み合わせて返す
 
 
-## 3.テンプレート作成と再利用
-テンプレートでは，homeのテンプレートで使われていた，受け取ったツイートを全て表示する機構がそのまま再利用できる．
+## 3.テンプレートの作成と再利用
+テンプレートでは，home.htmlで使われていた，受け取ったツイートを全て表示する機構がそのまま再利用できる．
 
-以下の部分をtweets.htmlとして分割し．homeからは，上記の部分を削除する．
+以下の部分をtweets.htmlとう新しいhtmlファイルを生成しhome.htmlからは，上記の機構を削除する．
 
 **[ b3twitter/twitter_app/templates/tweets.html ]**
 ```html
@@ -135,12 +134,12 @@ def profile(request, user_name):
 </script>
 ```
 
-tweets.htmlを使用する場合は，以下のように記述する
+"tweets.html"は以下のように記述することで、別のhtmlファイルに埋め込むことができる。
 ```html
 {%include 'tweets.html'%}
 ```
 
-したがって，"home.html"は以下のようになる．
+編集した"home.html"は以下のようになる。
 
 **[ b3twitter/twitter_app/templates/twitter_app/home.html ]**
 ```html
@@ -168,7 +167,7 @@ tweets.htmlを使用する場合は，以下のように記述する
 {% endblock %}
 ```
 
-今回新たに作成するプロフィールページのテンプレートが"profile.html"として以下のようにする．
+今回新たに作成するプロフィールページのテンプレートは"profile.html"として以下のように記述する．
 
 **[ b3twitter/twitter_app/templates/twitter_app/profile.html ]**
 ```html
@@ -185,6 +184,7 @@ tweets.htmlを使用する場合は，以下のように記述する
     </h1>
     <hr class="mt-0 mb-4">
 
+    <!-- tweetを表示する機構を再利用 -->
     {%include 'tweets.html'%}
 {% endblock %}
 ```
@@ -196,10 +196,9 @@ tweets.htmlを使用する場合は，以下のように記述する
 ## 4.aタグを使ったリンク付け
 最後にhtmlにaタグを使ってプロフィールページのリンクを追加する．
 
-- aタグを貼る場所の図
+![atag_link](md_images/Atag_link.png)
 
-3の工程で分割した"tweets.html"にツイートを表示する際に一緒に記載するユーザ名にリンクを貼る．
-aタグは，Djangoで用意されてるURLの記述方法に従い以下のように記述する，
+aタグのhref属性は、Djangoで用意されてるURLの記述方法に従い以下のようにする。
 ```html
 <a href="{% url "profile" tweet.user.username %}"></a>
 ```
@@ -212,7 +211,8 @@ aタグは，Djangoで用意されてるURLの記述方法に従い以下のよ�
       <div class="card-body">
         <div class="card-title" style="display: flex">
             <h5>
-                <a href="{% url "profile" tweet.user.id %}">
+                <!-- 変更箇所 -->
+                <a href="{% url "profile" tweet.user.username %}">
                     <u>{{ tweet.user.username }}</u>
                 </a>
             </h5>

@@ -2,7 +2,7 @@
 > http://localhost:8080/home
 
 上のURLでブラウザからアクセスすると以下のページが表示される(ログイン済)
-![get_home](images/get_home.png)
+![get_home](md_images/get_home.png)
 
 このページが表示されるまでの処理を解説する。
 
@@ -27,9 +27,9 @@ urlpatternsリスト内のpath関数がURLと関数の対応付を行ってお�
 
 今回アクセスするURLの前半部分"http://localhost:8080/"は、ブラウザからサーバにアクセスするまでで使用する部分であり、Djangoサーバがルーティングで使用するのは、"home"の部分である。
 
-![get_home_url](images/get_home_url.png)
+![get_home_url](md_images/get_home_url.png)
 
-したがって、urlpatternsの2番目の処理が実行され、"views.home"という関数が実行される。
+したがって、urlpatternsの2番目の処理が選ばれ、"views.home"という関数が実行される。
 
 > ここでは説明を省いているが、Djangoにおけるルーティング処理はアプリケーションごとで行うため、複数のファイルで行っている。
 
