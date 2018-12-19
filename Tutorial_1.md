@@ -26,7 +26,9 @@ urlpatterns = [
 ```
 urlpatternsリスト内のpath関数がURLと関数の対応付を行っており、第1引数がURL、第2引数が関数である。
 
-今回アクセスするURLの前半部分"http://localhost:8080/"は、ブラウザからサーバにアクセスするまでで使用する部分であり、Djangoサーバがルーティングで使用するのは、"home"の部分である。
+今回アクセスするURLの前半部分
+"http://localhost:8080/"
+は、ブラウザからサーバにアクセスするまでで使用する部分であり、Djangoサーバがルーティングで使用するのは、"home"の部分である。
 
 ![get_home_url](md_images/get_home_url.png)
 

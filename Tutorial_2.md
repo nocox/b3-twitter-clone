@@ -4,11 +4,12 @@
 ## 追加機能の概要
 現在は、複数のユーザのツイートがごちゃ混ぜで表示されている。
 
-<img src="md_images/gotyamaze_home.png" width="320px">
+![gotyamaze_home](md_images/gotyamaze_home.png)
 
 home画面からユーザ名をクリックすると、そのユーザが投稿したツイートとユーザ情報を表示するプロフィールページを新たに作成する。
 
-<img src="md_images/tutorial_2.png" width="320px">
+![gotyamaze_home](md_images/tutorial_2.png)
+
 
 
 
