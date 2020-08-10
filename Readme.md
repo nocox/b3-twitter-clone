@@ -2,7 +2,6 @@
 > B3研究室Webアプリ(Django)勉強会用のサンプルアプリケーション
 
 ## ソースコードの取得と環境構築
-
 #### [ windowsの場合 ]
 Anaconda Promptから
 ```bash
@@ -18,7 +17,7 @@ venv¥Scripts¥activate
 ```bash
 git clone [URL]
 cd B3Twitter
-virtualenv venv
+python -m venv venv
 source venv/bin/activate
 (vevn) pip install -r requirements.txt
 ```
